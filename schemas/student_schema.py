@@ -7,7 +7,11 @@ class StudentBase(BaseModel):
     promedio: float = Field(..., ge=0, le=10, description="Promedio del alumno")
 
 class StudentCreate(StudentBase):
-    pass
+    id: int = Field(..., gt=0, description="Identificador único positivo")
+    class Config:
+        from_attributes = True
 
 class Student(StudentBase):
     id: int
+    class Config:
+        from_attributes = True

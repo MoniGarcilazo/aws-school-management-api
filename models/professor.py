@@ -3,7 +3,7 @@ from dataclasses import dataclass
 @dataclass
 class Professor:
     id: int
-    numeroEmpleado: str
+    numeroEmpleado: int
     nombres: str
     apellidos: str
-    horasClase: float
+    horasClase: int

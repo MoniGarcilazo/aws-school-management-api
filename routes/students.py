@@ -5,7 +5,7 @@ from storage.student_data import alumnos
 
 router = APIRouter(prefix="/alumnos", tags=["Alumnos"])
 
-@router.get("/", response_model=List[Student])
+@router.get("", response_model=List[Student])
 def get_alumnos():
     return alumnos
 
@@ -16,10 +16,9 @@ def get_alumno(id: int):
             return alumno
     raise HTTPException(status_code=404, detail="Alumno no encontrado")
 
-@router.post("/", response_model=Student, status_code=201)
+@router.post("", response_model=Student, status_code=201)
 def create_alumno(data: StudentCreate):
-    new_id = len(alumnos) + 1
-    nuevo_alumno = Student(id=new_id, **data.model_dump())
+    nuevo_alumno = Student( **data.model_dump())
     alumnos.append(nuevo_alumno)
     return nuevo_alumno
 
@@ -27,12 +26,16 @@ def create_alumno(data: StudentCreate):
 def update_alumno(id: int, data: StudentCreate):
     for idx, alumno in enumerate(alumnos):
         if alumno.id == id:
-            actualizado = Student(id=id, **data.model_dump())
+            actualizado = Student(
+                id=id,
+                **data.model_dump(exclude={"id"})
+            )
             alumnos[idx] = actualizado
             return actualizado
+
     raise HTTPException(status_code=404, detail="Alumno no encontrado")
 
-@router.delete("/{id}", status_code=204)
+@router.delete("/{id}", status_code=200)
 def delete_alumno(id: int):
     for idx, alumno in enumerate(alumnos):
         if alumno.id == id:
