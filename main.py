@@ -3,6 +3,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+from db.database import Base, engine
 from routes.professors import router as professor_router
 from routes.students import router as student_router
 
@@ -11,6 +12,8 @@ app = FastAPI(
     description="API para gestionar alumnos y profesores en memoria",
     version="1.0.0"
 )
+
+Base.metadata.create_all(bind=engine)
 
 app.include_router(student_router)
 app.include_router(professor_router)
