@@ -12,20 +12,20 @@ from db.deps import get_db
 router = APIRouter(prefix="/profesores", tags=["Profesores"])
 
 
-@router.get("/", response_model=list[Professor])
+@router.get("", response_model=list[Professor])
 def get_profesores(db: Session = Depends(get_db)):
     return db.query(ProfessorModel).all()
 
 
 @router.get("/{id}", response_model=Professor)
 def get_profesor(id: int, db: Session = Depends(get_db)):
-    profesor = db.query(ProfessorModel).filter(Professor.id == id).first()
+    profesor = db.query(ProfessorModel).filter(ProfessorModel.id == id).first()
     if not profesor:
         raise HTTPException(404, "Profesor no encontrado")
     return profesor
 
 
-@router.post("/", response_model=Professor, status_code=201)
+@router.post("", response_model=Professor, status_code=201)
 def create_profesor(data: ProfessorCreate, db: Session = Depends(get_db)):
     profesor = ProfessorModel(**data.dict())
     db.add(profesor)

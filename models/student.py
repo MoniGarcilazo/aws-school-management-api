@@ -9,5 +9,5 @@ class StudentModel(Base):
     nombres = Column(String(100), nullable=False)
     apellidos = Column(String(100), nullable=False)
     promedio = Column(Float, nullable=False)
-    # fotoPerfilUrl = Column(String(255), nullable=True)
+    fotoPerfilUrl = Column(String(255), nullable=True)
     password = Column(String(255), nullable=False)

@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel, Field
 
 class StudentBase(BaseModel):
@@ -13,6 +14,26 @@ class StudentCreate(StudentBase):
 
 class Student(StudentBase):
     id: int
+    fotoPerfilUrl: Optional[str] = Field(...)
+
+    class Config:
+        from_attributes = True
+
+class StudentLogin(BaseModel):
+    password: str
+
+    class Config:
+        from_attributes = True
+
+class ValidateStudent(BaseModel):
+    sessionString: str = Field(..., alias="session_string")
+
+    class Config:
+        from_attributes = True
+        populate_by_name = True
+
+class SessionResponse(BaseModel):
+    sessionString: str
 
     class Config:
         from_attributes = True
